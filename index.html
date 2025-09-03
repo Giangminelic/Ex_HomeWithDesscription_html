@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sơ đồ có chú thích</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+      text-align: center;
+    }
+
+    .image-container {
+      max-width: 800px;
+      margin: auto;
+      position: relative; /* Quan trọng để đặt text box chồng lên ảnh */
+    }
+
+    .image-container img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    .label {
+      position: absolute;
+      background: rgba(255, 255, 255, 0.8);
+      padding: 4px 8px;
+      border: 1px solid #333;
+      border-radius: 6px;
+      font-size: 14px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .label:hover {
+      background: yellow;
+      transform: scale(1.1);
+    }
+  </style>
+</head>
+<body>
+  <h1>Sơ đồ căn hộ 3D có chú thích</h1>
+  <p>Đưa chuột vào ô để xem rõ vị trí.</p>
+
+  <div class="image-container">
+    <img src="3dhome.jpg" alt="Sơ đồ căn hộ 3D">
+
+    <!-- Các text box (tọa độ %) -->
+    <div class="label" style="top: 15%; left: 20%;">Phòng ăn</div>
+    <div class="label" style="top: 40%; left: 10%;">Phòng khách</div>
+    <div class="label" style="top: 70%; left: 60%;">Phòng ngủ</div>
+    <div class="label" style="top: 25%; left: 60%;">Bếp</div>
+    <div class="label" style="top: 10%; left: 75%;">Nhà vệ sinh</div>
+  </div>
+
+  <script>
+    console.log("Chú thích hiển thị thành công!");
+  </script>
+</body>
+</html>
