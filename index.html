@@ -1,212 +1,40 @@
 <!DOCTYPE html>
 <html lang="vi">
-
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Lò nung điện</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>IFrame Mobile</title>
   <style>
-    body {
-      font-family: Arial, sans-serif;
+    body, html {
       margin: 0;
-      background: #f4faff;
-      color: #333;
+      padding: 0;
+      height: 100%;
+      overflow: hidden; /* tránh cuộn ngoài body */
     }
-
-    .header {
-      padding: 10px;
-      background: #1976d2;
-      color: white;
-      font-size: 18px;
-      text-align: center;
-    }
-
-    .program-title {
-      text-align: center;
-      margin: 10px;
-      font-weight: bold;
-      font-size: 20px;
-    }
-
-    .card {
-      margin: 15px;
-      padding: 15px;
-      background: #fff;
-      border-radius: 10px;
-      box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.15);
-    }
-
-    .status {
-      margin-bottom: 10px;
-      font-size: 16px;
-    }
-
-    .status span {
-      font-weight: bold;
-    }
-
-    .status .running {
-      color: red;
-    }
-
-    .info-row {
-      display: flex;
-      justify-content: space-between;
-      padding: 6px 0;
-      border-bottom: 1px solid #eee;
-    }
-
-    .info-row:last-child {
+    .iframe-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
       border: none;
+      overflow: hidden;
     }
-
-    .warning {
-      color: #f39c12;
-      font-weight: bold;
-    }
-
-    .program-select {
-      text-align: center;
-      margin: 10px 0;
-    }
-
-    .btn-container {
-      display: flex;
-      justify-content: center;
-      gap: 10px;
-      flex-wrap: wrap;
-      margin-top: 10px;
-    }
-
-    button {
+    .iframe-container iframe {
+      width: 100%;
+      height: 100%;
       border: none;
-      padding: 10px 15px;
-      border-radius: 5px;
-      cursor: pointer;
-      font-size: 14px;
-      font-weight: bold;
-    }
-
-    .btn-green {
-      background: #4caf50;
-      color: white;
-    }
-
-    .btn-red {
-      background: #e53935;
-      color: white;
-    }
-
-    .btn-blue {
-      background: #2196f3;
-      color: white;
-    }
-
-    .btn-orange {
-      background: #ff9800;
-      color: white;
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch; /* cho phép scroll mượt trên iOS */
     }
   </style>
 </head>
-
 <body>
-  <div class="header">Lò nung điện</div>
-
-  <div class="program-title">CHƯƠNG TRÌNH LÒ NHIỆT</div>
-
-  <div class="card">
-    <div class="status">Trạng thái: <span id="status" class="running">🔴 ĐANG DỪNG</span></div>
-
-    <div class="info-row">
-      <div>📄 Tên file:</div>
-      <div id="fileName">Lò 2 TN</div>
-    </div>
-
-    <div class="info-row">
-      <div>🔥 Nhiệt độ thực:</div>
-      <div><span id="temp">--</span> °C</div>
-    </div>
-
-    <div class="info-row">
-      <div>🌡️ Nhiệt độ cài:</div>
-      <div><span id="setTemp">--</span> °C</div>
-    </div>
-
-    <div class="info-row">
-      <div>📈 Bước nhiệt:</div>
-      <div><span id="step">--</span></div>
-    </div>
-
-    <div class="info-row">
-      <div>⏱️ Thời gian bước:</div>
-      <div><span id="stepTime">--</span> phút</div>
-    </div>
-
-    <div class="info-row">
-      <div>🕑 TG bước đã chạy:</div>
-      <div><span id="stepRun">--</span> phút</div>
-    </div>
-
-    <div class="info-row">
-      <div>🕒 Tổng TG dự kiến:</div>
-      <div><span id="totalEstimate">--</span></div>
-    </div>
-
-    <div class="info-row">
-      <div>📋 Tổng TG đã chạy:</div>
-      <div><span id="totalRun">--</span></div>
-    </div>
-
-    <div class="info-row">
-      <div>⚠️ Cảnh báo:</div>
-      <div id="warning">Không có cảnh báo</div>
-    </div>
+  <div class="iframe-container">
+    <iframe 
+      src="LINK_CUA_BAN" 
+      scrolling="yes">
+    </iframe>
   </div>
-
-  <div class="program-select">
-    📌 Chọn chương trình:
-    <select id="programSelect">
-      <option value="lo2tn">Lò 2 TN</option>
-    </select>
-  </div>
-
-  <div class="btn-container">
-    <button class="btn-blue">🔼 Tăng bước</button>
-    <button class="btn-orange">🔽 Giảm bước</button>
-    <button class="btn-green">▶️ CHẠY</button>
-    <button class="btn-red">⏹️ DỪNG</button>
-  </div>
-
-  <script src="https://www.unpkg.com/@eohjsc/era-widget@1.1.3/src/index.js"></script>
-  <script>
-    const eraWidget = new EraWidget();
-
-    const temp = document.getElementById("temp");
-    const setTemp = document.getElementById("setTemp");
-    const step = document.getElementById("step");
-    const stepTime = document.getElementById("stepTime");
-    const stepRun = document.getElementById("stepRun");
-    const totalEstimate = document.getElementById("totalEstimate");
-    const totalRun = document.getElementById("totalRun");
-    const status = document.getElementById("status");
-
-    let configTemp, configSetTemp, configStep, configStepTime;
-
-    eraWidget.init({
-      onConfiguration: (configuration) => {
-        configTemp = configuration.realtime_configs[0]; // nhiệt độ thực
-        configSetTemp = configuration.realtime_configs[1]; // nhiệt độ cài
-        configStep = configuration.realtime_configs[2]; // bước nhiệt
-        configStepTime = configuration.realtime_configs[3]; // thời gian bước
-      },
-      onValues: (values) => {
-        if (configTemp) temp.textContent = values[configTemp.id].value;
-        if (configSetTemp) setTemp.textContent = values[configSetTemp.id].value;
-        if (configStep) step.textContent = values[configStep.id].value;
-        if (configStepTime) stepTime.textContent = values[configStepTime.id].value;
-      }
-    });
-  </script>
 </body>
-
 </html>
